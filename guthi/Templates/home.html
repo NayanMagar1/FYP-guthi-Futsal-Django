@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+        {% for slider in sliders %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ slider.image.url }}" 
+                     class="d-block w-100"
+                     style="height:500px; object-fit:cover;">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>{{ slider.title }}</h3>
+                    <p>{{ slider.description }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Previous Button -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <!-- Next Button -->
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+</div>
+
+{% endblock %}

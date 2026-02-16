@@ -3,10 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import HomeSlider
 
 
 def home(request):
-    return render(request, "home.html") 
+    sliders = HomeSlider.objects.all()
+    return render(request, "home.html", {'sliders': sliders})
 
 def register_view(request):
     if request.method == "POST":

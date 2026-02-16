@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import HomeSlider
 
-# Register your models here.
+@admin.register(HomeSlider)
+class HomeSliderAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at')
