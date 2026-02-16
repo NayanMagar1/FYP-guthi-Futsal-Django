@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- Futsal Details -->
+    <div class="card mb-4">
+        <img src="{{ futsal.image.url }}" 
+             class="card-img-top"
+             style="height:400px; object-fit:cover;">
+             
+        <div class="card-body">
+            <h2>{{ futsal.name }}</h2>
+            <p><strong>Location:</strong> {{ futsal.location }}</p>
+            <p>{{ futsal.description }}</p>
+        </div>
+    </div>
+
+
+    <!-- Booking Form -->
+    <div class="card mb-5">
+        <div class="card-body">
+            <h4>Book This Futsal</h4>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Select Date</label>
+                        <input type="date" name="date" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Select Time</label>
+                        <input type="time" name="time" class="form-control" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">
+                    Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Weekly Schedule Chart -->
+    <h3 class="mb-3">Weekly Booking Schedule (6 AM – 10 PM)</h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Time</th>
+                    {% for day in week_dates %}
+                        <th>{{ day|date:"D d M" }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for slot in time_slots %}
+                <tr>
+
+                   
+                <!-- Time Column -->
+                <td class="fw-bold">
+                    {{ slot.0|time:"h A" }} - {{ slot.1|time:"h A" }}
+                </td>
+
+
+
+                    <!-- Days Loop -->
+                    {% for day in week_dates %}
+                        {% with booked=False %}
+                            {% for booking in bookings %}
+                                {% if booking.date == day and booking.time == slot %}
+                                    {% with booked=True %}
+                                    {% endwith %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if booked %}
+                                <td class="bg-danger text-white fw-bold">
+                                    Booked
+                                </td>
+                            {% else %}
+                                <td class="bg-success text-white fw-bold">
+                                    Available
+                                </td>
+                            {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Available Futsals</h2>
+
+    <div class="row">
+        {% for f in futsals %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{{ f.image.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ f.name }}</h5>
+                    <p>{{ f.location }}</p>
+                    <a href="{% url 'futsal_detail' f.id %}" class="btn btn-success">
+                        Book Now
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -12,7 +12,7 @@
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                 <img src="{{ slider.image.url }}" 
                      class="d-block w-100"
-                     style="height:500px; object-fit:cover;">
+                     style="height:600px; object-fit:cover;">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>{{ slider.title }}</h3>
                     <p>{{ slider.description }}</p>
@@ -32,5 +32,12 @@
     </button>
 
 </div>
+
+<div class="text-center mt-4">
+    <a href="{% url 'futsal_list' %}" class="btn btn-primary btn-lg">
+        Book Now
+    </a>
+</div>
+
 
 {% endblock %}

@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import HomeSlider
+from .models import HomeSlider, futsal, Booking
+from datetime import date, timedelta, time
 
 
 def home(request):
@@ -52,6 +53,52 @@ def login_view(request):
             return redirect("login")
 
     return render(request, "login.html")
+
+
+def futsal_list(request):
+    futsals = futsal.objects.all()
+    return render(request, 'futsal_list.html', {'futsals': futsals})
+
+def futsal_detail(request, id):
+    futsal_obj = futsal.objects.get(id=id)
+
+    today = date.today()
+    week_dates = [today + timedelta(days=i) for i in range(7)]
+
+    # Create time slots from 6 AM to 10 PM
+    # time_slots = []
+    # for hour in range(6, 22):   # 22 = 10PM
+    #     time_slots.append(time(hour, 0))
+
+    # bookings = Booking.objects.filter(futsal=futsal_obj)
+
+    # context = {
+    #     'futsal': futsal_obj,
+    #     'week_dates': week_dates,
+    #     'time_slots': time_slots,
+    #     'bookings': bookings,
+    # }
+
+
+    # views.py
+    time_slots = []
+    for hour in range(6, 22):  # 6AM to 10PM
+        start_time = time(hour, 0)
+        end_time = time(hour+1, 0)
+        time_slots.append((start_time, end_time))
+    
+    bookings = Booking.objects.filter(futsal=futsal_obj)
+
+    # In context
+    context = {
+        'futsal': futsal_obj,
+        'week_dates': week_dates,
+        'time_slots': time_slots,   # now a list of tuples (start, end)
+        'bookings': bookings,
+    }
+
+
+    return render(request, 'futsal_detail.html', context)
 
 
 def logout_view(request):
