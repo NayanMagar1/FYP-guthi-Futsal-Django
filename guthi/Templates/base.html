@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* NAVBAR */
+        nav {
+            background-color: #2e7d32; /* Green theme */
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-left a {
+            font-size: 20px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 40px;
+            min-height: 70vh;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #1b5e20;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <a href="{% url 'dashboard' %}">Guthi Futsal</a>
+        </div>
+
+        <div class="nav-right">
+            {% if request.user.is_authenticated %}
+                <span style="color:white;">Welcome, {{ request.user.username }}</span>
+                <a href="{% url 'logout' %}">Logout</a>
+                <a href="{% url 'aboutus' %}">About Us</a>
+                <a href="{% url 'contactus' %}">Contact Us</a>          
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'aboutus' %}">About Us</a>
+                <a href="{% url 'contactus' %}">Contact Us</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        © 2026 Guthi Futsal | All Rights Reserved
+    </footer>
+
+</body>
+</html>
