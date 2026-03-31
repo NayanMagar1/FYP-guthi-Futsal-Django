@@ -47,7 +47,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect("dashboard")  # you can change later
+            return redirect("home")  
         else:
             messages.error(request, "Invalid username or password")
             return redirect("login")
