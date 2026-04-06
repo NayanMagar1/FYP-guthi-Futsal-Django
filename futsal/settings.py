@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'guthi.context_processors.profile_processor',
             ],
         },
     },
@@ -128,4 +129,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
+KHALTI_PUBLIC_KEY = "57ef49692f594550ad45672b523095d9"
+KHALTI_SECRET_KEY = "267bbd4f19a645b4a2691ddc0c8d87d4"
+
+KHALTI_VERIFY_URL = "https://a.khalti.com/api/v2/payment/verify/"
 

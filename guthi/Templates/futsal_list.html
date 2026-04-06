@@ -1,25 +1,96 @@
- {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Available Futsals</h2>
+<div class="container mt-5">
 
-    <div class="row">
+    <!-- TITLE -->
+    <h2 class="text-center mb-4 fw-bold">⚽ Available Futsals</h2>
+
+    <!-- SEARCH BAR -->
+    <div class="row mb-4">
+        <div class="col-md-6 mx-auto">
+            <input type="text" id="searchInput" class="form-control shadow-sm"
+                   placeholder="🔍 Search by name or location..."
+                   onkeyup="searchFutsal()">
+        </div>
+    </div>
+
+    <!-- FUTSAL CARDS -->
+    <div class="row" id="futsalContainer">
         {% for f in futsals %}
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <img src="{{ f.image.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ f.name }}</h5>
-                    <p>{{ f.location }}</p>
-                    <a href="{% url 'futsal_detail' f.id %}" class="btn btn-success">
+        <div class="col-md-4 futsal-card">
+            <div class="card mb-4 shadow-sm border-0 futsal-item">
+
+                <img src="{{ f.image.url }}" 
+                     class="card-img-top"
+                     style="height:220px; object-fit:cover; border-radius:10px 10px 0 0;">
+
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">{{ f.name }}</h5>
+                    <p class="text-muted">{{ f.location }}</p>
+
+                    <a href="{% url 'futsal_detail' f.id %}" 
+                       class="btn btn-success px-4">
                         Book Now
                     </a>
                 </div>
+
             </div>
         </div>
         {% endfor %}
     </div>
+
 </div>
 
-{% endblock %} 
+<!-- SEARCH SCRIPT -->
+<script>
+function searchFutsal() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let items = document.getElementsByClassName("futsal-card");
+
+    for (let i = 0; i < items.length; i++) {
+        let text = items[i].innerText.toLowerCase();
+        items[i].style.display = text.includes(input) ? "" : "none";
+    }
+}
+</script>
+
+<!-- STYLE -->
+<style>
+
+/* Page background */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Card Styling */
+.futsal-item {
+    border-radius: 10px;
+    transition: 0.3s;
+    background-color: #ffffff;
+}
+
+.futsal-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* Button */
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Search input */
+#searchInput {
+    border-radius: 25px;
+    padding: 10px 15px;
+}
+
+</style>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+<h2>My Bookings</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Futsal</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Paid</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.futsal.name }}</td>
+            <td>{{ booking.date }}</td>
+            <td>{{ booking.time|time:"h:i A" }}</td>
+            <td>{% if booking.is_paid %}✅{% else %}❌{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No bookings yet</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

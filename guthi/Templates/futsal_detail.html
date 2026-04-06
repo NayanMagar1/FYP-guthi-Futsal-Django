@@ -3,55 +3,54 @@
 
 <div class="container mt-5">
 
-    <!-- Futsal Details -->
-    <div class="card mb-4">
+    <!-- FUTSAL DETAILS -->
+    <div class="card shadow-sm border-0 mb-4">
         <img src="{{ futsal.image.url }}" 
              class="card-img-top"
              style="height:400px; object-fit:cover;">
              
         <div class="card-body">
-            <h2>{{ futsal.name }}</h2>
-            <p><strong>Location:</strong> {{ futsal.location }}</p>
+            <h2 class="fw-bold">{{ futsal.name }}</h2>
+            <p class="text-muted"><strong>📍 Location:</strong> {{ futsal.location }}</p>
+            <p><strong>💰 Price:</strong> Rs. {{ futsal.price_per_hour }} / hour</p>
             <p>{{ futsal.description }}</p>
         </div>
     </div>
 
 
-    <!-- Booking Form -->
-    <div class="card mb-5">
-        <div class="card-body">
-            <h4>Book This Futsal</h4>
+    <!-- BOOKING FORM -->
+    <div class="card shadow-sm border-0 mb-5 p-4">
+        <h4 class="mb-3">⚽ Book This Futsal</h4>
 
-            <form method="POST">
-                {% csrf_token %}
+        <form method="POST">
+            {% csrf_token %}
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Select Date</label>
-                        <input type="date" name="date" class="form-control" required>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label>Select Time</label>
-                        <input type="time" name="time" class="form-control" required>
-                    </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Select Date</label>
+                    <input type="date" id="dateInput" name="date" class="form-control" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-3">
-                    Confirm Booking
-                </button>
-            </form>
-        </div>
+                <div class="col-md-6">
+                    <label>Select Time</label>
+                    <input type="time" id="timeInput" name="time" class="form-control" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success mt-3">
+                Confirm Booking
+            </button>
+        </form>
     </div>
 
 
-    <!-- Weekly Schedule Chart -->
-    <h3 class="mb-3">Weekly Booking Schedule (6 AM – 10 PM)</h3>
+    <!-- WEEKLY SCHEDULE -->
+    <h3 class="mb-3 fw-bold text-center">📅 Click Time Slot to Book</h3>
 
     <div class="table-responsive">
-        <table class="table table-bordered text-center align-middle">
+        <table class="table table-bordered text-center align-middle shadow-sm">
 
-            <thead class="table-dark">
+            <thead class="table-success">
                 <tr>
                     <th>Time</th>
                     {% for day in week_dates %}
@@ -64,19 +63,14 @@
                 {% for slot in time_slots %}
                 <tr>
 
-                   
-                <!-- Time Column -->
-                <td class="fw-bold">
-                    {{ slot.0|time:"h A" }} - {{ slot.1|time:"h A" }}
-                </td>
+                    <td class="fw-bold">
+                        {{ slot.0|time:"h A" }}
+                    </td>
 
-
-
-                    <!-- Days Loop -->
                     {% for day in week_dates %}
                         {% with booked=False %}
                             {% for booking in bookings %}
-                                {% if booking.date == day and booking.time == slot %}
+                                {% if booking.date == day and booking.time == slot.0 %}
                                     {% with booked=True %}
                                     {% endwith %}
                                 {% endif %}
@@ -84,11 +78,15 @@
 
                             {% if booked %}
                                 <td class="bg-danger text-white fw-bold">
-                                    Booked
+                                    ❌ Booked
                                 </td>
                             {% else %}
-                                <td class="bg-success text-white fw-bold">
-                                    Available
+                                <td class="bg-success text-white fw-bold slot-cell"
+                                    data-date="{{ day|date:'Y-m-d' }}"
+                                    data-time="{{ slot.0|time:'H:i' }}"
+                                    onclick="selectSlot(this.dataset.date, this.dataset.time)"
+                                    style="cursor:pointer;">
+                                    ✅ Available
                                 </td>
                             {% endif %}
                         {% endwith %}
@@ -102,5 +100,35 @@
     </div>
 
 </div>
+
+
+<!-- JS FOR AUTO FILL -->
+<script>
+function selectSlot(date, time) {
+    document.getElementById("dateInput").value = date;
+    document.getElementById("timeInput").value = time;
+
+    // scroll to form
+    window.scrollTo({ top: 300, behavior: 'smooth' });
+}
+</script>
+
+
+<!-- STYLE -->
+<style>
+
+/* Hover effect for slots */
+.slot-cell:hover {
+    background-color: #28a745 !important;
+    transform: scale(1.05);
+    transition: 0.2s;
+}
+
+/* Card */
+.card {
+    border-radius: 10px;
+}
+
+</style>
 
 {% endblock %}

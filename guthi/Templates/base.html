@@ -63,24 +63,42 @@
 
 
     <nav>
-        <div class="nav-left">
-            <a href="{% url 'home' %}">Guthi Futsal</a>
-        </div>
+    <div class="nav-left">
+        <a href="{% url 'home' %}">Guthi Futsal</a>
+    </div>
 
-        <div class="nav-right">
-            {% if request.user.is_authenticated %}
-                <span style="color:white;">Welcome, {{ request.user.username }}</span>
-                <a href="{% url 'logout' %}">Logout</a>
-                <a href="{% url 'aboutus' %}">About Us</a>
-                <a href="{% url 'contactus' %}">Contact Us</a>          
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}">Register</a>
-                <a href="{% url 'aboutus' %}">About Us</a>
-                <a href="{% url 'contactus' %}">Contact Us</a>
-            {% endif %}
-        </div>
-    </nav>
+    <div class="nav-right">
+        {% if request.user.is_authenticated %}
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="{{ profile.photo.url }}" alt="Profile" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
+                    {{ request.user.username }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="{% url 'aboutus' %}">About Us</a>
+            <a href="{% url 'contactus' %}">Contact Us</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'aboutus' %}">About Us</a>
+            <a href="{% url 'contactus' %}">Contact Us</a>
+        {% endif %}
+    </div>
+</nav>
     
 
     <div class="content">

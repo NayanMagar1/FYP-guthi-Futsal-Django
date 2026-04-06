@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width:700px;">
+    <h2>Profile</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Full Name</label>
+            <input type="text" name="full_name" class="form-control" value="{{ profile.full_name }}">
+        </div>
+
+        <div class="mb-3">
+            <label>Profile Photo</label>
+            <input type="file" name="photo" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success">Update Profile</button>
+    </form>
+
+    <hr>
+    <h3>Your Bookings</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Futsal</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Paid</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.futsal.name }}</td>
+                <td>{{ booking.date }}</td>
+                <td>{{ booking.time|time:"h:i A" }}</td>
+                <td>{{ booking.is_paid|yesno:"Yes,No" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No bookings yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

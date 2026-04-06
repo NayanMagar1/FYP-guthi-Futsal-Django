@@ -5,39 +5,116 @@
 
 {% block content %}
 
+<!-- HERO CAROUSEL -->
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
 
     <div class="carousel-inner">
         {% for slider in sliders %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                
                 <img src="{{ slider.image.url }}" 
                      class="d-block w-100"
-                     style="height:600px; object-fit:cover;">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>{{ slider.title }}</h3>
-                    <p>{{ slider.description }}</p>
+                     style="height:600px; object-fit:cover; filter: brightness(70%);">
+
+                <!-- Overlay Content -->
+                <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+                    <h1 class="fw-bold display-4">{{ slider.title }}</h1>
+                    <p class="lead">{{ slider.description }}</p>
+
+                    <a href="{% url 'futsal_list' %}" class="btn btn-success btn-lg mt-3">
+                         Book Your Match Now
+                    </a>
                 </div>
+
             </div>
         {% endfor %}
     </div>
 
-    <!-- Previous Button -->
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
     </button>
 
-    <!-- Next Button -->
     <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
         <span class="carousel-control-next-icon"></span>
     </button>
 
 </div>
 
-<div class="text-center mt-4">
-    <a href="{% url 'futsal_list' %}" class="btn btn-primary btn-lg">
-        Book Now
-    </a>
+
+<!-- FEATURE SECTION -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4"> Featured Futsals</h2>
+
+    <div class="row">
+        {% for f in futsals %}
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <img src="{{ f.image.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+                <div class="card-body text-center">
+                    <h5>{{ f.name }}</h5>
+                    <p class="text-muted">{{ f.location }}</p>
+                    <a href="{% url 'futsal_detail' f.id %}" class="btn btn-outline-success">
+                        View & Book
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
+
+<!-- WHY CHOOSE US -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Why Choose Us?</h2>
+
+    <div class="row text-center">
+        <div class="col-md-4">
+            <h4> Easy Booking</h4>
+            <p>Book your futsal ground instantly with our simple system.</p>
+        </div>
+
+        <div class="col-md-4">
+            <h4> Secure Payment</h4>
+            <p>Pay safely using Khalti with fast confirmation.</p>
+        </div>
+
+        <div class="col-md-4">
+            <h4> Best Locations</h4>
+            <p>Top futsal venues available near you.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- STATS SECTION -->
+<div class="container mt-5 mb-5">
+    <div class="row text-center">
+
+        <div class="col-md-4">
+            <h1 class="text-success">50+</h1>
+            <p>Futsal Grounds</p>
+        </div>
+
+        <div class="col-md-4">
+            <h1 class="text-success">1000+</h1>
+            <p>Bookings Done</p>
+        </div>
+
+        <div class="col-md-4">
+            <h1 class="text-success">500+</h1>
+            <p>Happy Players</p>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- FINAL CTA -->
+<div class="text-center mb-5">
+    <a href="{% url 'futsal_list' %}" class="btn btn-lg btn-success px-5 py-3">
+         Start Booking Now
+    </a>
+</div>
 
 {% endblock %}
