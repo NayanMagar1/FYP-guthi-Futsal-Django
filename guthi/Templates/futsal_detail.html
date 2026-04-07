@@ -11,8 +11,8 @@
              
         <div class="card-body">
             <h2 class="fw-bold">{{ futsal.name }}</h2>
-            <p class="text-muted"><strong>📍 Location:</strong> {{ futsal.location }}</p>
-            <p><strong>💰 Price:</strong> Rs. {{ futsal.price_per_hour }} / hour</p>
+            <p class="text-muted"><strong> Location:</strong> {{ futsal.location }}</p>
+            <p><strong> Price:</strong> Rs. {{ futsal.price_per_hour }} / hour</p>
             <p>{{ futsal.description }}</p>
         </div>
     </div>
@@ -20,7 +20,7 @@
 
     <!-- BOOKING FORM -->
     <div class="card shadow-sm border-0 mb-5 p-4">
-        <h4 class="mb-3">⚽ Book This Futsal</h4>
+        <h4 class="mb-3"> Book This Futsal</h4>
 
         <form method="POST">
             {% csrf_token %}
@@ -45,7 +45,7 @@
 
 
     <!-- WEEKLY SCHEDULE -->
-    <h3 class="mb-3 fw-bold text-center">📅 Click Time Slot to Book</h3>
+    <h3 class="mb-3 fw-bold text-center"> Click Time Slot to Book</h3>
 
     <div class="table-responsive">
         <table class="table table-bordered text-center align-middle shadow-sm">

@@ -71,7 +71,7 @@ def login_view(request):
 def futsal_list(request):
     futsals = futsal.objects.all()
     return render(request, 'futsal_list.html', {'futsals': futsals})
-
+@login_required
 def futsal_detail(request, id):
     futsal_obj = futsal.objects.get(id=id)
 
@@ -122,7 +122,7 @@ def futsal_detail(request, id):
 
     return render(request, 'futsal_detail.html', context)
 
-
+@login_required
 def khalti_payment(request):
     booking_data = request.session.get('booking_data')
 
@@ -154,6 +154,7 @@ def khalti_payment(request):
 
 
 from datetime import datetime
+from django.core.mail import send_mail
 
 def khalti_verify(request):
     pidx = request.GET.get('pidx')
@@ -173,12 +174,18 @@ def khalti_verify(request):
     data = response.json()
 
     if data['status'] == 'Completed':
+
+        # ✅ Prevent duplicate booking
+        if Booking.objects.filter(transaction_id=pidx).exists():
+            return redirect('payment_success')
+
         booking_data = request.session.get('booking_data')
 
         booking_date = datetime.strptime(booking_data['date'], "%Y-%m-%d").date()
         booking_time = datetime.strptime(booking_data['time'], "%H:%M").time()
 
-        Booking.objects.create(
+        # ✅ Save booking
+        booking = Booking.objects.create(
             futsal_id=booking_data['futsal_id'],
             user=request.user if request.user.is_authenticated else None,
             date=booking_date,
@@ -187,9 +194,32 @@ def khalti_verify(request):
             transaction_id=pidx
         )
 
-        return HttpResponse("Payment Successful ✅ Booking Confirmed")
+        # ✅ Send email ONLY once
+        send_mail(
+            subject='Futsal Booking Confirmed ✅',
+            message=f"""
+Hello {request.user.username},
 
-    return HttpResponse("Payment Failed ❌")
+Your booking is confirmed!
+
+Futsal: {booking.futsal.name}
+Date: {booking.date}
+Time: {booking.time}
+Transaction ID: {pidx}
+
+Thank you!
+""",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[request.user.email],
+            fail_silently=False,
+        )
+
+        # Optional: clear session
+        request.session.pop('booking_data', None)
+
+        return redirect('payment_success')
+
+    return redirect('payment_failed')
 
 def logout_view(request):
     logout(request)
@@ -271,3 +301,11 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     
     return render(request, 'change_password.html', {'form': form})
+
+def payment_success(request):
+    booking = Booking.objects.filter(user=request.user).order_by('-created_at').first()
+    return render(request, 'payment_success.html', {'booking': booking})
+
+
+def payment_failed(request):
+    return HttpResponse("Payment Failed ❌ Try again")

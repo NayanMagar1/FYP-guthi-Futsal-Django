@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Success</title>
+</head>
+<body style="font-family:Arial; text-align:center; padding:50px;">
+
+    <h1 style="color:green;">✅ Payment Successful</h1>
+
+    {% if booking %}
+        <h3>Booking Details</h3>
+
+        <p><b>Name:</b> {{ booking.name }}</p>
+        <p><b>Email:</b> {{ booking.email }}</p>
+        <p><b>Date:</b> {{ booking.date }}</p>
+        <p><b>Time:</b> {{ booking.time }}</p>
+        <p><b>Futsal:</b> {{ booking.futsal }}</p>
+        <p><b>Amount Paid:</b> Rs. {{ booking.amount }}</p>
+    {% else %}
+        <p>No booking data found.</p>
+    {% endif %}
+
+    <br>
+    <a href="/">Go Home</a>
+
+</body>
+</html>

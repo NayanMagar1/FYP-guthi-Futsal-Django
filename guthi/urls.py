@@ -18,5 +18,6 @@ urlpatterns = [
     path('khalti/verify/', views.khalti_verify, name='khalti_verify'),
     path('profile/', views.profile_view, name='profile'),
     path('my_bookings/', views.my_bookings, name='my_bookings'),
+    path('payment-success/', views.payment_success, name='payment_success'),
     path('profile/change-password/', auth_views.PasswordChangeView.as_view(template_name='change_password.html', success_url='/profile/'), name='change_password'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
