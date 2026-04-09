@@ -6,36 +6,58 @@
 
 <div style="max-width:400px; margin:auto; background:#f4f4f4; padding:30px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
 
-    <h2 style="text-align:center; color:#2e7d32;">Register</h2>
+    <h2 style="text-align:center; color:#2e7d32;">Create Account</h2>
+
+    <!-- 🔔 Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <p style="
+                text-align:center; 
+                padding:10px; 
+                border-radius:5px;
+                {% if message.tags == 'error' %}
+                    background:#ffebee; color:#c62828;
+                {% elif message.tags == 'success' %}
+                    background:#e8f5e9; color:#2e7d32;
+                {% else %}
+                    background:#eeeeee;
+                {% endif %}
+            ">
+                {{ message }}
+            </p>
+        {% endfor %}
+    {% endif %}
+
+    <!-- 📩 Info -->
+    <p style="text-align:center; font-size:14px; color:#555;">
+        After registration, you will receive a verification email.
+    </p>
 
     <form method="POST">
         {% csrf_token %}
 
         <input type="text" name="username" placeholder="Username" required 
-        style="width:100%; padding:10px; margin-bottom:15px;">
+        style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;">
 
         <input type="email" name="email" placeholder="Email" required 
-        style="width:100%; padding:10px; margin-bottom:15px;">
+        style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;">
 
         <input type="password" name="password" placeholder="Password" required 
-        style="width:100%; padding:10px; margin-bottom:15px;">
+        style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;">
 
         <input type="password" name="confirm_password" placeholder="Confirm Password" required 
-        style="width:100%; padding:10px; margin-bottom:15px;">
+        style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;">
 
         <button type="submit" 
-        style="width:100%; padding:10px; background:#2e7d32; color:white; border:none; border-radius:5px;">
+        style="width:100%; padding:10px; background:#2e7d32; color:white; border:none; border-radius:5px; cursor:pointer;">
             Register
         </button>
     </form>
 
     <p style="text-align:center; margin-top:15px;">
-        Already have an account? <a href="{% url 'login' %}" style="color:#2e7d32;">Login</a>
+        Already have an account? 
+        <a href="{% url 'login' %}" style="color:#2e7d32;">Login</a>
     </p>
-
-    {% for message in messages %}
-        <p style="color:red; text-align:center;">{{ message }}</p>
-    {% endfor %}
 
 </div>
 

@@ -44,7 +44,7 @@
     </div>
 
 
-    <!-- WEEKLY SCHEDULE -->
+    {% comment %} <!-- WEEKLY SCHEDULE -->
     <h3 class="mb-3 fw-bold text-center"> Click Time Slot to Book</h3>
 
     <div class="table-responsive">
@@ -97,6 +97,47 @@
             </tbody>
 
         </table>
+    </div> {% endcomment %}
+
+    <!-- DATE SELECTOR -->
+<h4 class="text-center mb-3">Select Date</h4>
+
+<form method="GET" class="text-center mb-4">
+    <select name="date" onchange="this.form.submit()" class="form-select w-50 mx-auto">
+        {% for day in week_dates %}
+            <option value="{{ day|date:'Y-m-d' }}"
+                {% if day == selected_date %}selected{% endif %}>
+                {{ day|date:"l, d M" }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+
+    <!-- TIME SLOTS -->
+    <h4 class="text-center mb-3">
+        Slots for {{ selected_date|date:"l, d M" }}
+    </h4>
+
+    <div class="row text-center">
+
+        {% for slot in time_slots %}
+            {% if slot in booked_times %}
+                <div class="col-md-3 mb-3">
+                    <div class="p-3 bg-danger text-white rounded">
+                        {{ slot|time:"h A" }} <br> ❌ Booked
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-3 mb-3">
+                    <div class="p-3 bg-success text-white rounded slot-box"
+                        onclick="selectSlot('{{ selected_date|date:'Y-m-d' }}', '{{ slot|time:'H:i' }}')">
+                        {{ slot|time:"h A" }} <br> ✅ Available
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
     </div>
 
 </div>
@@ -109,7 +150,7 @@ function selectSlot(date, time) {
     document.getElementById("timeInput").value = time;
 
     // scroll to form
-    window.scrollTo({ top: 300, behavior: 'smooth' });
+    window.scrollTo({ top: 200, behavior: 'smooth' });
 }
 </script>
 
@@ -127,6 +168,16 @@ function selectSlot(date, time) {
 /* Card */
 .card {
     border-radius: 10px;
+}
+
+.slot-box {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.slot-box:hover {
+    transform: scale(1.05);
+    background-color: #218838 !important;
 }
 
 </style>
