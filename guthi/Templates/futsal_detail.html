@@ -31,7 +31,7 @@
     <!-- DATE SELECT -->
     <form method="GET" class="text-center mb-4">
         <select name="date" onchange="this.form.submit()" class="form-select w-50 mx-auto">
-            {% for day n week_dates %}
+            {% for day in week_dates %}
                 <option value="{{ day|date:'Y-m-d' }}"
                     {% if day == selected_date %}selected{% endif %}>
                     {{ day|date:"l, d M" }}
@@ -48,7 +48,7 @@
             {% if slot in booked_times %}
                 <div class="col-md-3 mb-3">
                     <div class="p-3 bg-danger text-white rounded">
-                        {{ slot|time:"h A" }} <br> ❌ Booked
+                        {{ slot|time:"h A" }} <br> ❌ Boked
                     </div>
                 </div>
             {% else %}
