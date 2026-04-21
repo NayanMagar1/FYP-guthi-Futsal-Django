@@ -24,14 +24,14 @@
         <input type="date" id="dateInput" name="date" class="form-control mb-2" required>
         <input type="time" id="timeInput" name="time" class="form-control mb-2" required>
 
-        <button class="btn btn-success">ook Now</button>
+        <button class="btn btn-success">Book Now</button>
     </form>
 </div>
 
     <!-- DATE SELECT -->
     <form method="GET" class="text-center mb-4">
         <select name="date" onchange="this.form.submit()" class="form-select w-50 mx-auto">
-            {% for day in week_dates %}
+            {% for day n week_dates %}
                 <option value="{{ day|date:'Y-m-d' }}"
                     {% if day == selected_date %}selected{% endif %}>
                     {{ day|date:"l, d M" }}
