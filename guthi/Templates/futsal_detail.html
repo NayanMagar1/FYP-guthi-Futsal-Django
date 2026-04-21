@@ -48,7 +48,7 @@
             {% if slot in booked_times %}
                 <div class="col-md-3 mb-3">
                     <div class="p-3 bg-danger text-white rounded">
-                        {{ slot|time:"h A" }} <br> ❌ Boked
+                        {{ slot|time:"h A" }} <br> ❌ Booked
                     </div>
                 </div>
             {% else %}
@@ -91,7 +91,7 @@ function selectSlot(date, time) {
     transition: 0.2s;
 }
 .slot-box:hover {
-    transform: scale(1.05);
+    transfrm: scale(1.05);
 }
 </style>
 
