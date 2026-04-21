@@ -36,7 +36,7 @@
     <form method="POST">
         {% csrf_token %}
 
-        <input type="text" name="username" placeholder="Username" required 
+        <input type="text" name="username" placeholder="Username" equired 
         style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;">
 
         <input type="email" name="email" placeholder="Email" required 
@@ -55,7 +55,7 @@
     </form>
 
     <p style="text-align:center; margin-top:15px;">
-        lready have an account? 
+        Already have an account? 
         <a href="{% url 'login' %}" style="color:#2e7d32;">Login</a>
     </p>
 
