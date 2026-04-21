@@ -404,7 +404,7 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     
     return render(request, 'change_password.html', {'form': form})
-
+#payment success 
 def payment_success(request):
     booking = Booking.objects.filter(user=request.user).order_by('-created_at').first()
     return render(request, 'payment_success.html', {'booking': booking})
