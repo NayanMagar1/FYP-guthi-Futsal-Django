@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block title %}Admin Analytics{% endblock %}
+
+{% block content %}
+<!-- Include Chart.js via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-graph-up"></i> Business Analytics Dashboard</h2>
+        <div class="text-muted small">Real-time Data Visualization</div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center p-3 h-100"
+                style="border-bottom: 4px solid #0d6efd !important;">
+                <div class="text-muted small mb-1">Total Revenue</div>
+                <div class="fs-4 fw-bold text-primary">Rs. {{ total_revenue }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center p-3 h-100"
+                style="border-bottom: 4px solid #198754 !important;">
+                <div class="text-muted small mb-1">Total Bookings</div>
+                <div class="fs-4 fw-bold text-success">{{ total_bookings }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center p-3 h-100"
+                style="border-bottom: 4px solid #ffc107 !important;">
+                <div class="text-muted small mb-1">Registered Users</div>
+                <div class="fs-4 fw-bold text-warning">{{ total_users }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center p-3 h-100"
+                style="border-bottom: 4px solid #dc3545 !important;">
+                <div class="text-muted small mb-1">Total Reviews</div>
+                <div class="fs-4 fw-bold text-danger">{{ total_reviews }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Weekly Trends Line Chart -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold mb-4">📈 Weekly Booking Trends</h5>
+                <canvas id="weeklyChart" height="150"></canvas>
+            </div>
+        </div>
+
+        <!-- Popular Slots Bar Chart -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold mb-4">🕒 Most Popular Hours</h5>
+                <canvas id="slotsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Revenue per Futsal Pie Chart -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold mb-4">💰 Revenue Contribution by Futsal</h5>
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div
+                class="card border-0 shadow-sm p-4 h-100 d-flex flex-column justify-content-center align-items-center text-center">
+                <div class="mb-3">
+                    <i class="bi bi-shield-check text-success" style="font-size: 3rem;"></i>
+                </div>
+                <h4 class="fw-bold">Business Intelligence Ready</h4>
+                <p class="text-muted small">Use these insights to optimize pricing, staff scheduling, and marketing
+                    campaigns.</p>
+                <a href="/admin/" class="btn btn-dark mt-2 btn-sm">Back to Main Admin</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Weekly Trends Chart
+    const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+    new Chart(weeklyCtx, {
+        type: 'line',
+        data: {
+            labels: {{ weekly_labels| safe }},
+        datasets: [{
+            label: 'Confirmed Bookings',
+            data: {{ weekly_data| safe }},
+        borderColor: '#0d6efd',
+        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+        fill: true,
+        tension: 0.4,
+        borderWidth: 3
+            }]
+        },
+        options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+    }
+    });
+
+    // Popular Slots Chart
+    const slotsCtx = document.getElementById('slotsChart').getContext('2d');
+    new Chart(slotsCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ slot_labels| safe }},
+        datasets: [{
+            label: 'Bookings',
+            data: {{ slot_data| safe }},
+        backgroundColor: '#ffc107',
+        borderRadius: 8
+            }]
+        },
+        options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { display: false } }
+    }
+    });
+
+    // Revenue per Futsal Chart
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(revenueCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ futsal_labels| safe }},
+        datasets: [{
+            data: {{ futsal_data| safe }},
+        backgroundColor: ['#0d6efd', '#198754', '#dc3545', '#ffc107', '#0dcaf0'],
+        borderWidth: 0
+            }]
+        },
+        options: {
+        cutout: '70%',
+        responsive: true,
+        plugins: {
+            legend: { position: 'bottom' }
+        }
+    }
+    });
+</script>
+
+<style>
+    .card {
+        border-radius: 16px;
+    }
+</style>
+{% endblock %}
