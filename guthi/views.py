@@ -409,6 +409,7 @@ def payment_success(request):
     booking = Booking.objects.filter(user=request.user).order_by('-created_at').first()
     return render(request, 'payment_success.html', {'booking': booking})
 
-
+#payment fail logic
 def payment_failed(request):
     return HttpResponse("Payment Failed ❌ Try again")
+
