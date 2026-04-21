@@ -18,15 +18,21 @@ class futsal(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='futsal_images/')   
+    image = models.ImageField(upload_to='futsal_images/')
     created_at = models.DateTimeField(auto_now_add=True)
+
     price_per_hour = models.IntegerField(default=1000)
-     
+
+    # 🔥 Dynamic pricing
+    peak_start = models.TimeField(null=True, blank=True)
+    peak_end = models.TimeField(null=True, blank=True)
+
+    peak_price = models.IntegerField(default=1500)
+    weekend_price = models.IntegerField(default=1200)
+
     def __str__(self):
         return self.name
-    
 
-from django.contrib.auth.models import User
 
 class Booking(models.Model):
     futsal = models.ForeignKey(futsal, on_delete=models.CASCADE)
@@ -37,14 +43,15 @@ class Booking(models.Model):
 
     is_paid = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, blank=True, null=True)
+    email_sent = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.futsal.name} - {self.date} - {self.time}"
-    
     class Meta:
         unique_together = ('futsal', 'date', 'time')
+
+    def __str__(self):
+        return f"{self.futsal.name} - {self.date} - {self.time}"
 
 
 class Contact(models.Model):

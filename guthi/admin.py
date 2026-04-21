@@ -8,7 +8,19 @@ class HomeSliderAdmin(admin.ModelAdmin):
 
 @admin.register(futsal)
 class futsalAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'created_at','image')
+    list_display = ('name', 'location', 'price_per_hour', 'peak_price', 'weekend_price')
+
+    fieldsets = (
+        ('Basic Info', {
+            'fields': ('name', 'location', 'description', 'image')
+        }),
+        ('Pricing', {
+            'fields': ('price_per_hour', 'peak_price', 'weekend_price')
+        }),
+        ('Peak Hours', {
+            'fields': ('peak_start', 'peak_end')
+        }),
+    )
 
 
 
