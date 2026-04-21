@@ -5,7 +5,7 @@ from .models import HomeSlider, futsal, Contact
 class HomeSliderAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at')
 
-
+# Admin register(futsal)
 @admin.register(futsal)
 class futsalAdmin(admin.ModelAdmin):
     list_display = ('name', 'location', 'price_per_hour', 'peak_price', 'weekend_price')
