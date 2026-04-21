@@ -23,7 +23,7 @@ class futsal(models.Model):
 
     price_per_hour = models.IntegerField(default=1000)
 
-    # 🔥 Dynamic pricing
+    #  Dynamic pricing
     peak_start = models.TimeField(null=True, blank=True)
     peak_end = models.TimeField(null=True, blank=True)
 
