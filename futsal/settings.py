@@ -137,7 +137,7 @@ KHALTI_SECRET_KEY = "267bbd4f19a645b4a2691ddc0c8d87d4"
 
 KHALTI_VERIFY_URL = "https://a.khalti.com/api/v2/payment/verify/"
 
-MAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
